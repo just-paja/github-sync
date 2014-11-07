@@ -26,13 +26,13 @@ var
 	opts   = {},
 	jobs   = [],
 	user,
-	cfg,
+	cfg    = {},
 	optpar = getopt.create(args).setHelp(help_str),
 	params = optpar.parseSystem(),
-	path_cfg = proces.env.HOME + '/.config/github-sync.json';
+	path_cfg = process.env.HOME + '/.config/github-sync.json';
 
 
-if (fs.existSync(path_cfg)) {
+if (fs.existsSync(path_cfg)) {
 	cfg = require(path_cfg);
 }
 
