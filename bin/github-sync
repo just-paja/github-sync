@@ -46,19 +46,27 @@ for (var i = 0; i < params.argv.length; i++) {
 				var msg = '';
 
 				if (err) {
-					if (err instanceof Object && err.items instanceof Array) {
-						var lines = [];
+					var lines = [];
 
+					if (err instanceof Object && err.items instanceof Array) {
 						lines.push(':: Error: ' + err.message);
 
 						for (var i = 0; i < err.items.length; i++) {
 							lines.push(err.items[i]);
 						}
-
-						msg += lines.join("\n");
 					} else {
-						msg += Object.prototype.toString.call(err);
+						var err_lines = JSON.stringify(err, null, 2).split("\n").map(function(val) {
+							return "    " + val;
+						});
+
+						lines.push(':: Unexpected error');
+
+						for (var i = 0; i < err_lines.length; i++) {
+							lines.push(err_lines[i]);
+						}
 					}
+
+					msg += lines.join("\n");
 				}
 
 				next(msg);
