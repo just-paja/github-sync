@@ -1,0 +1,11 @@
+{
+	"name":"github-sync",
+	"dependencies":{
+		"xtend":"~4.0",
+		"node-getopt":"~0.2",
+		"request":"~2.47",
+		"async":"~0.9",
+		"moment":"~2.8",
+		"mkdirp":"~0.5"
+	}
+}
