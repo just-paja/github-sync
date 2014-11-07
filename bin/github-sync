@@ -84,4 +84,5 @@ async.series(jobs, function(err) {
 	}
 
 	console.log('Sync finished in ' + end.diff(start, 'miliseconds') + ' ms.');
+	process.exit(err ? 1:0);
 });
