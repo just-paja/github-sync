@@ -36,11 +36,19 @@ opts = xtend(params.options, {'user':params.argv[0]});
 sync(opts, function(err) {
 	var end = moment();
 
-	console.log('Sync finished in ' + end.diff(start, 'miliseconds') + ' ms.');
-
 	if (err) {
-		console.log(err);
+		if (err instanceof Object) {
+			console.log(':: Error: ' + err.message);
+
+			for (var i = 0; i < err.items.length; i++) {
+				console.log(err.items[i]);
+			}
+		} else {
+			console.log(err);
+		}
 	}
+
+	console.log('Sync finished in ' + end.diff(start, 'miliseconds') + ' ms.');
 });
 
 
