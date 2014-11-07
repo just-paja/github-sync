@@ -3,6 +3,7 @@
 var
 	getopt = require('node-getopt'),
 	moment = require('moment'),
+	async  = require('async'),
 	xtend  = require('xtend'),
 	sync   = require('../lib/sync'),
 	args   = [
@@ -13,7 +14,7 @@ var
 	];
 
 var help_str =
-	"Usage: sync [user]\n" +
+	"Usage: sync [user] [user] ..\n" +
 	"\n" +
 	"Sync all GitHub repositories of user\n" +
 	"\n" +
@@ -22,38 +23,57 @@ var help_str =
 var
 	start  = moment(),
 	opts   = {},
+	jobs   = [],
 	user,
 	optpar = getopt.create(args).setHelp(help_str);
 	params = optpar.parseSystem();
+
 
 if (typeof params.argv[0] == 'undefined') {
 	optpar.showHelp();
 	process.exit(1);
 }
 
-opts = xtend(params.options, {'user':params.argv[0]});
 
-sync(opts, function(err) {
+for (var i = 0; i < params.argv.length; i++) {
+	var
+		user = params.argv[i],
+		opts = xtend(params.options, {'user':user});
+
+	jobs.push(function(opts) {
+		return function(next) {
+			sync(opts, function(err) {
+				var msg = '';
+
+				if (err) {
+					if (err instanceof Object && err.items instanceof Array) {
+						var lines = [];
+
+						lines.push(':: Error: ' + err.message);
+
+						for (var i = 0; i < err.items.length; i++) {
+							lines.push(err.items[i]);
+						}
+
+						msg += lines.join("\n");
+					} else {
+						msg += Object.prototype.toString.call(err);
+					}
+				}
+
+				next(msg);
+			});
+		};
+	}(opts));
+}
+
+
+async.series(jobs, function(err) {
 	var end = moment();
 
 	if (err) {
-		if (err instanceof Object) {
-			if (err.items instanceof Array) {
-				console.log(':: Error: ' + err.message);
-
-				for (var i = 0; i < err.items.length; i++) {
-					console.log(err.items[i]);
-				}
-			} else {
-				console.log(err);
-			}
-		} else {
-			console.log(err);
-		}
+		console.log(err);
 	}
 
 	console.log('Sync finished in ' + end.diff(start, 'miliseconds') + ' ms.');
 });
-
-
-
