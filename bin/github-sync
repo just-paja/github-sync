@@ -49,6 +49,12 @@ if (typeof params.argv[0] == 'undefined') {
 }
 
 
+if (params.options.help) {
+	optpar.showHelp();
+	process.exit(0);
+}
+
+
 for (var i = 0; i < params.argv.length; i++) {
 	var
 		user = params.argv[i],
