@@ -38,10 +38,14 @@ sync(opts, function(err) {
 
 	if (err) {
 		if (err instanceof Object) {
-			console.log(':: Error: ' + err.message);
+			if (err.items instanceof Array) {
+				console.log(':: Error: ' + err.message);
 
-			for (var i = 0; i < err.items.length; i++) {
-				console.log(err.items[i]);
+				for (var i = 0; i < err.items.length; i++) {
+					console.log(err.items[i]);
+				}
+			} else {
+				console.log(err);
 			}
 		} else {
 			console.log(err);
