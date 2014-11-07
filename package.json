@@ -1,5 +1,8 @@
 {
 	"name":"github-sync",
+	"version":"0.1.0",
+	"description":"Synchronize all your GitHub repositories with one command",
+
 	"dependencies":{
 		"xtend":"~4.0",
 		"node-getopt":"~0.2",
@@ -7,5 +10,13 @@
 		"async":"~0.9",
 		"moment":"~2.8",
 		"mkdirp":"~0.5"
-	}
+	},
+
+	"repository":{
+		"type":"git",
+		"url":"https://github.com/just-paja/github-sync"
+	},
+
+	"author":"just-paja <just-paja@gmail.com>",
+	"license":"GPLv3"
 }
