@@ -17,6 +17,10 @@
 		"url":"https://github.com/just-paja/github-sync"
 	},
 
+	"bin":{
+		"github-sync":"./bin/github-sync"
+	},
+
 	"author":"just-paja <just-paja@gmail.com>",
 	"license":"GPLv3"
 }
