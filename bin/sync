@@ -1,0 +1,47 @@
+#!/usr/bin/node
+
+var
+	getopt = require('node-getopt'),
+	moment = require('moment'),
+	xtend  = require('xtend'),
+	sync   = require('../lib/sync'),
+	args   = [
+		['c', 'concurrency=ARG', 'How many parallel fetches will be used (8 default)'],
+		['h', 'help',            'Show this help'],
+		['f', 'forks',           'Sync forks as well'],
+		['v', 'verbose',         'Be more verbose'],
+	];
+
+var help_str =
+	"Usage: sync [user]\n" +
+	"\n" +
+	"Sync all GitHub repositories of user\n" +
+	"\n" +
+	"[[OPTIONS]]\n";
+
+var
+	start  = moment(),
+	opts   = {},
+	user,
+	optpar = getopt.create(args).setHelp(help_str);
+	params = optpar.parseSystem();
+
+if (typeof params.argv[0] == 'undefined') {
+	optpar.showHelp();
+	process.exit(1);
+}
+
+opts = xtend(params.options, {'user':params.argv[0]});
+
+sync(opts, function(err) {
+	var end = moment();
+
+	console.log('Sync finished in ' + end.diff(start, 'miliseconds') + ' ms.');
+
+	if (err) {
+		console.log(err);
+	}
+});
+
+
+
