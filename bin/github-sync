@@ -1,6 +1,7 @@
 #!/usr/bin/node
 
 var
+	fs     = require('fs'),
 	getopt = require('node-getopt'),
 	moment = require('moment'),
 	async  = require('async'),
@@ -25,13 +26,26 @@ var
 	opts   = {},
 	jobs   = [],
 	user,
-	optpar = getopt.create(args).setHelp(help_str);
-	params = optpar.parseSystem();
+	cfg,
+	optpar = getopt.create(args).setHelp(help_str),
+	params = optpar.parseSystem(),
+	path_cfg = proces.env.HOME + '/.config/github-sync.json';
 
+
+if (fs.existSync(path_cfg)) {
+	cfg = require(path_cfg);
+}
 
 if (typeof params.argv[0] == 'undefined') {
-	optpar.showHelp();
-	process.exit(1);
+	if (cfg.users instanceof Array && cfg.users.length && typeof cfg.dir == 'string') {
+		params.argv = cfg.users;
+		params.path = cfg.dir;
+	} else {
+		optpar.showHelp();
+		process.exit(1);
+	}
+} else {
+	params.path = process.cwd()
 }
 
 
