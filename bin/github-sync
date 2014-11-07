@@ -39,13 +39,13 @@ if (fs.existsSync(path_cfg)) {
 if (typeof params.argv[0] == 'undefined') {
 	if (cfg.users instanceof Array && cfg.users.length && typeof cfg.dir == 'string') {
 		params.argv = cfg.users;
-		params.path = cfg.dir;
+		params.options.path = cfg.dir;
 	} else {
 		optpar.showHelp();
 		process.exit(1);
 	}
 } else {
-	params.path = process.cwd()
+	params.options.path = process.cwd()
 }
 
 
