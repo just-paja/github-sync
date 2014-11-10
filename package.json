@@ -1,6 +1,6 @@
 {
 	"name":"github-sync",
-	"version":"0.1.6",
+	"version":"0.1.7",
 	"description":"Synchronize all your GitHub repositories with one command (uses unix shell command)",
 
 	"dependencies":{
