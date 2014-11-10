@@ -11,6 +11,7 @@ var
 		['c', 'concurrency=ARG', 'How many parallel fetches will be used (8 default)'],
 		['h', 'help',            'Show this help'],
 		['f', 'forks',           'Sync forks as well'],
+		['s', 'status',          'Get global git status, don\'t sync'],
 		['v', 'verbose',         'Be more verbose'],
 	];
 
